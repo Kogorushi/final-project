@@ -1,5 +1,7 @@
 #include <cstdint>
 
+#define MAX_RANGE 3.1415926535897
+
 template <typename T, T (*X_0_FUNCTION)(T), T (*X_1_FUNCTION)(T), T (*Y_0_FUNCTION)(T), T (*Y_1_FUNCTION)(T)>
 void pdeMatrixGen(symmetricMatrix<T> &A, vector<T> &B, const uint32_t n)
 {
@@ -34,7 +36,7 @@ void pdeMatrixGen(symmetricMatrix<T> &A, vector<T> &B, const uint32_t n)
     yOffset = y;
     if(x == 0) /* check for boundry case along x axis */
     {
-      B(i+1,1) = B(i+1,1) + X_0_FUNCTION( (yOffset+1)/n );
+      B(i+1,1) = B(i+1,1) + X_0_FUNCTION( (yOffset+1)/n * MAX_RANGE );
     }
     else
     {
@@ -46,7 +48,7 @@ void pdeMatrixGen(symmetricMatrix<T> &A, vector<T> &B, const uint32_t n)
     yOffset = y;
     if(xOffset == n) /* check for boundry case along x = 1 */
     {
-      B(i+1,1) = B(i+1,1) + X_1_FUNCTION( (yOffset+1)/n );
+      B(i+1,1) = B(i+1,1) + X_1_FUNCTION( (yOffset+1)/n * MAX_RANGE );
     }
     else
     {
@@ -58,7 +60,7 @@ void pdeMatrixGen(symmetricMatrix<T> &A, vector<T> &B, const uint32_t n)
     yOffset = y-1;
     if(y == 0) /* check for boundry case along y axis */
     {
-      B(i+1,1) = B(i+1,1) + Y_0_FUNCTION( (xOffset+1)/n );
+      B(i+1,1) = B(i+1,1) + Y_0_FUNCTION( (xOffset+1)/n * MAX_RANGE );
     }
     else
     {
@@ -70,7 +72,7 @@ void pdeMatrixGen(symmetricMatrix<T> &A, vector<T> &B, const uint32_t n)
     yOffset = y+1;
     if(yOffset == n) /* check for boundry case along y = 1 */
     {
-      B(i+1,1) = B(i+1,1) + Y_1_FUNCTION( (xOffset+1)/n);
+      B(i+1,1) = B(i+1,1) + Y_1_FUNCTION( (xOffset+1)/n * MAX_RANGE);
     }
     else
     {
