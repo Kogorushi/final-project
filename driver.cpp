@@ -8,35 +8,16 @@
 
 #include <iostream>
 #include <fstream>
-#include <cmath>
-
 #include "matrixLib.h"
 #include "gaussElim.h"
 #include "choleskyDecomp.h"
-#include "gen_pde.cpp"
+#include "gen_pde.h"
+#include <cmath>
 
 using namespace std;
 
-double zero(double a)
+int main(int argc, char** argv)
 {
-  return 1;
-}
-
-double test(double a)
-{
-  return 100;
-}
-
-int main()
-{
-  symmetricMatrix<double> aMatrix;
-  vector<double> bVector;
-
-  pdeMatrixGen<double, zero, sin, zero, sin>(aMatrix, bVector, 3);
-
-  cout << aMatrix;
-
-  /*
   if(argc < 2)
   {
     cout << "Invalid argument" << endl;
@@ -46,17 +27,44 @@ int main()
     return 1;
   }
 
-  ifstream file;
-  file.open(argv[1]);
-
-  int size;
-  file >> size;
+  int n = atoi(argv[1]);
 
   cout << "~~~~~~~~~~~BEGINNING TESTING~~~~~~~~~~" << endl;
-  upperTMatrix<float> temp;
+  symmetricMatrix<float> A;
+  vector<float> b, x;
+  cout << "GENERATING MATRIX..." << endl;
+  pdeMatrixGen<float, sin, zero, cos, zero>(A, b, n);
+  cout << "A:  " << endl;
+  cout << A << endl << endl;
+  cout << "b:  " << endl;
+  cout << b << endl << endl;
+
+  cout << "~~~~~~~~~SOLVING FOR X~~~~~~~~~~~~~" << endl;
+  cout << "...via Cholesky Decomposition..." << endl;
+  lowerTMatrix<float> lT(A.getRows(), A.getCols());
+  lT = cholesky(A);
+  cout << "L:  " << endl << lT << endl;
+  cout << "...solving..." << endl;
+  x = choleskySolver(lT, b);
+  cout << "x:  " << endl << x << endl;
+  cout << "Ax = " << endl << (A*x) << endl << "original is: " << endl << b << endl << endl;
+
+  cout << "...via Gaussian Elimination..." << endl;
+  gaussElim<float> t;
+  matrix<float> mtrx(A);
+  vector<float> tempB(b);
+  cout << "...solving..." << endl;
+  x = t(mtrx, tempB);
+  cout << "A in row echelon form:" << endl;
+  cout << mtrx << endl;
+  cout << "Calculated value of x:" << endl;
+  cout << x << endl;
+  cout << "Ax = " << (A*x) << "original is: " << endl << b << endl;
+  
+/*  upperTMatrix<float> temp;
   upperTMatrix<float> mtrx(size, size);  //you can test these by commenting out the matrix class and the gaussian
 //  lowerTMatrix<float> mtrx(size, size);  //elimination at the bottom of the driver.
-
+  
   file >> mtrx;
   cout << mtrx;
   cout << "~~~~~~~~~~TESTING ACCESSORS~~~~~~~~~~~" << endl;
@@ -72,13 +80,13 @@ int main()
   cout << mtrx;
   vector<float> b(size);
   file >> b;
-
+  
   vector<float> originalb(b);
 
   vector<float> x(b);
   cout << b(1, 1) << endl;
   x(1, 1) = 0;
-  cout << b(1, 1) << endl;
+  cout << b(1, 1) << endl; 
   matrix<float> temp2(mtrx);
   matrix<float> temp3(mtrx);
   matrix<float> a(1, 4);
@@ -86,7 +94,7 @@ int main()
   cout << mtrx << endl;
   cout << temp2 << endl;
   for(int i = 1; i < 5; i++)
-  {
+  {  
     a(1,i) = 1;
   }
   cout << "didn't break yet..." << endl;
@@ -129,22 +137,7 @@ int main()
   cout << newB << endl;
   x = choleskySolver(lT, newB);
   cout << x << endl;
-  cout << "Ax = " << (sym*x) << ".  (original is: " << newB << ")" << endl;
-
-  */
-
-
-
-
-
-
-
-
-
-
-
-
-
+  cout << "Ax = " << (sym*x) << ".  (original is: " << newB << ")" << endl;*/
 /*  gaussElim<float> t;
   temp3 = mtrx;
   b = originalb;
