@@ -13,8 +13,8 @@ void pdeMatrixGen(symmetricMatrix<T> &A, vector<T> &B, const uint32_t n)
   uint64_t xOffset;
   uint64_t yOffset;
 
-  A.buildNew(n*n+1, n*n+1); /* generate new matrix of size (n*n+1) x (n*n+1) */
-  B.buildNew(n*n+1);        /* generate new vector of size (n*n+1) */
+  A.buildNew(n*n, n*n);   /* generate new matrix of size (n*n+1) x (n*n+1) */
+  B.buildNew(n*n);        /* generate new vector of size (n*n+1) */
 
   for(i = 0; i < A.getRows(); ++i) /* iterate over rows */
   {
@@ -40,7 +40,6 @@ void pdeMatrixGen(symmetricMatrix<T> &A, vector<T> &B, const uint32_t n)
     }
     else
     {
-      // cout << "throwing at:" << i << " " << xOffset+yOffset*(n-1) << endl;
       A( i+1, xOffset+yOffset*(n-1)+1 ) = -1.0/4;
     }
 
