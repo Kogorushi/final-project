@@ -23,7 +23,6 @@ lowerTMatrix<T> cholesky(symmetricMatrix<T>& A)
         retVal(i, j) = (A(i, j) - s)/retVal(j, j);
       }
     }
-    cout << retVal << endl;
 /*    retVal(i, i) = sqrt(A(i, i) - s);
 
     for(int k = i + 1; k <= A.getRows(); k++)
