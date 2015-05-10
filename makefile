@@ -5,7 +5,8 @@
 # Purpose:      makefile1 for example source code.
 #####################################################
 
-CXX = /usr/bin/g++
+#CXX = /usr/bin/g++
+CXX = clang++
 CXXFLAGS = -std=c++0x -g -Wall -W -pedantic-errors
 
 OBJECTS = driver.o

@@ -8,15 +8,36 @@
 
 #include <iostream>
 #include <fstream>
+#include <cmath>
+
 #include "matrixLib.h"
 #include "gaussElim.h"
 #include "thomasAlgorithm.h"
 #include "choleskyDecomp.h"
+#include "gen_pde.cpp"
 
 using namespace std;
 
+double zero(double a)
+{
+  return 1;
+}
+
+double test(double a)
+{
+  return 100;
+}
+
 int main(int argc, char** argv)
 {
+  symmetricMatrix<double> aMatrix(16,16);
+  vector<double> bVector;
+
+  pdeMatrixGen<double, zero, sin, zero, sin>(aMatrix, bVector, 4);
+
+  cout << aMatrix;
+
+  /*
   if(argc < 2)
   {
     cout << "Invalid argument" << endl;
@@ -37,7 +58,7 @@ int main(int argc, char** argv)
   tridiagonalMatrix<float> mtrx(size, size);
 //  upperTMatrix<float> mtrx(size, size);  //you can test these by commenting out the matrix class and the gaussian
 //  lowerTMatrix<float> mtrx(size, size);  //elimination at the bottom of the driver.
-  
+
   file >> mtrx;
   cout << mtrx;
   cout << "~~~~~~~~~~TESTING ACCESSORS~~~~~~~~~~~" << endl;
@@ -53,13 +74,13 @@ int main(int argc, char** argv)
   cout << mtrx;
   vector<float> b(size);
   file >> b;
-  
+
   vector<float> originalb(b);
 
   vector<float> x(b);
   cout << b(1, 1) << endl;
   x(1, 1) = 0;
-  cout << b(1, 1) << endl; 
+  cout << b(1, 1) << endl;
   matrix<float> temp2(mtrx);
   matrix<float> temp3(mtrx);
   matrix<float> a(1, 4);
@@ -67,7 +88,7 @@ int main(int argc, char** argv)
   cout << mtrx << endl;
   cout << temp2 << endl;
   for(int i = 1; i < 5; i++)
-  {  
+  {
     a(1,i) = 1;
   }
   cout << "didn't break yet..." << endl;
@@ -113,6 +134,21 @@ int main(int argc, char** argv)
   cout << newB << endl;
   x = choleskySolver(lT, newB);
   cout << "Ax = " << (sym*x) << ".  (original is: " << newB << ")" << endl;
+
+  */
+
+
+
+
+
+
+
+
+
+
+
+
+
 /*  gaussElim<float> t;
   temp3 = mtrx;
   b = originalb;
