@@ -10,7 +10,6 @@
 #include <fstream>
 #include "matrixLib.h"
 #include "gaussElim.h"
-#include "thomasAlgorithm.h"
 #include "choleskyDecomp.h"
 
 using namespace std;
@@ -33,9 +32,8 @@ int main(int argc, char** argv)
   file >> size;
 
   cout << "~~~~~~~~~~~BEGINNING TESTING~~~~~~~~~~" << endl;
-  tridiagonalMatrix<float> temp;
-  tridiagonalMatrix<float> mtrx(size, size);
-//  upperTMatrix<float> mtrx(size, size);  //you can test these by commenting out the matrix class and the gaussian
+  upperTMatrix<float> temp;
+  upperTMatrix<float> mtrx(size, size);  //you can test these by commenting out the matrix class and the gaussian
 //  lowerTMatrix<float> mtrx(size, size);  //elimination at the bottom of the driver.
   
   file >> mtrx;
@@ -94,12 +92,6 @@ int main(int argc, char** argv)
   cout << "After:" << endl << mtrx << endl;
 
   temp3 = mtrx;
-  b = originalb;
-  cout << "STARTING THOMAS ALGORITHM" << endl;
-  x = thomasAlgorithm(mtrx, b);
-  cout << "Calculated value of x:" << endl;
-  cout << x << endl;
-  cout << "Ax = " << (temp3*x) << ".  (original is: " << originalb << ")" << endl;
   file >> size;
   cout << "~~~~~~~~CHOLESKY DECOMP~~~~~~~~~" << endl;
   symmetricMatrix<float> sym(size, size);
@@ -108,10 +100,14 @@ int main(int argc, char** argv)
   file >> newB;
   cout << "made it here" << endl;
   lowerTMatrix<float> lT(size, size);
+  lT(4, 2) = 1;
+  cout << lT << endl;
+  lT(4, 2) = 0;
   lT = cholesky(sym);
   cout << lT << endl;
   cout << newB << endl;
   x = choleskySolver(lT, newB);
+  cout << x << endl;
   cout << "Ax = " << (sym*x) << ".  (original is: " << newB << ")" << endl;
 /*  gaussElim<float> t;
   temp3 = mtrx;

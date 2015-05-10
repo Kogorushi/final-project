@@ -10,7 +10,6 @@
 #include "lowerTMatrix.h"
 #include "symmetricMatrix.h"
 #include "diagonalMatrix.h"
-#include "tridiagonalMatrix.h"
 #include "matrixFuncs.h"
 
 #endif

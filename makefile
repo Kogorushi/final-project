@@ -32,4 +32,4 @@ clean :
 driver.o : driver.cpp vector.h vector.hpp \
            gaussElim.h gaussElim.hpp matrix.h upperTMatrix.h upperTMatrix.hpp \
            matrix.hpp matrixInterface.h matrixFuncs.h matrixFuncs.hpp \
-           lowerTMatrix.h lowerTMatrix.hpp
+           lowerTMatrix.h lowerTMatrix.hpp choleskyDecomp.hpp

@@ -7,12 +7,24 @@ lowerTMatrix<T> cholesky(symmetricMatrix<T>& A)
   T s = 0;
   for(int i = 1; i <= A.getRows(); i++)
   {
-    s = 0;
-    for(int j = 1; j < i; j++)
+    for(int j = 1; j < i+1; j++)
     {
-      s += retVal(i, j)*retVal(i, j);
+      s = 0;
+      for(int k = 1; k < j; k++)
+      {
+        s += retVal(i, k)*retVal(j, k);
+      }
+      if( i == j)
+      {
+        retVal(i, j) = sqrt(A(i, i) - s);
+      }
+      else
+      {
+        retVal(i, j) = (A(i, j) - s)/retVal(j, j);
+      }
     }
-    retVal(i, i) = sqrt(A(i, i) - s);
+    cout << retVal << endl;
+/*    retVal(i, i) = sqrt(A(i, i) - s);
 
     for(int k = i + 1; k <= A.getRows(); k++)
     {
@@ -22,7 +34,7 @@ lowerTMatrix<T> cholesky(symmetricMatrix<T>& A)
         s += retVal(i, j)*retVal(k, j);
       }
       retVal(k, i) = (A(k, i) - s)/retVal(i, i);
-    }
+    }*/
   }
   return retVal;
 }

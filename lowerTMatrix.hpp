@@ -61,7 +61,7 @@ T& lowerTMatrix<T>::operator()(const int row, const int col)
   int c = col - 1;
   if(col<= row)
   {
-    return m_Matrix[r*getCols() + c - (r*r +r)/2];
+    return m_Matrix[(r*r + r)/2 + c];
   }
   else
   {
@@ -81,7 +81,7 @@ const T& lowerTMatrix<T>::operator()(const int row, const int col) const
   int c = col - 1;
   if(col<= row)
   {
-    return m_Matrix[r*getCols() + c - (r*r +r)/2];
+    return m_Matrix[(r*r + r)/2 + c];
   }
   else
   {
@@ -143,9 +143,9 @@ lowerTMatrix<T>& lowerTMatrix<T>::operator=(const lowerTMatrix<T>& x)
     {
       r = (i/x.getCols()) + 1;
       c = (i%x.getCols()) + 1;
-      if(r > c)
+      if(r < c)
       {
-        i = i + r - 2;
+        i = r*x.getCols() - 1;
       }
       else
       {
