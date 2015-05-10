@@ -13,12 +13,11 @@ void pdeMatrixGen(symmetricMatrix<T> &A, vector<T> &B, const uint32_t n)
   uint64_t xOffset;
   uint64_t yOffset;
 
-  A.buildNew(n*2+1, n*2+1); /* generate new matrix of size (n*n+1) x (n*n+1) */
-  B.buildNew(n*2+1);        /* generate new vector of size (n*n+1) */
+  A.buildNew(n*n+1, n*n+1); /* generate new matrix of size (n*n+1) x (n*n+1) */
+  B.buildNew(n*n+1);        /* generate new vector of size (n*n+1) */
 
   for(i = 0; i < A.getRows(); ++i) /* iterate over rows */
   {
-    cout << "testing: " << i << endl;
     /* in a grid of:
 
     | (0,1)  ....  (1,1)
@@ -37,58 +36,48 @@ void pdeMatrixGen(symmetricMatrix<T> &A, vector<T> &B, const uint32_t n)
     yOffset = y;
     if(xOffset == n)
     {
-      B(i,1) = B(i,1) + X_1_FUNCTION(yOffset);
+      B(i+1,1) = B(i+1,1) + X_1_FUNCTION(yOffset);
     }
     else
     {
-      cout << "throwing at:" << i << " " << xOffset+yOffset*(n-1) << endl;
-      A( i, xOffset+yOffset*(n-1) ) = -1.0/4;
+      // cout << "throwing at:" << i << " " << xOffset+yOffset*(n-1) << endl;
+      A( i+1, xOffset+yOffset*(n-1)+1 ) = -1.0/4;
     }
-
-    cout << "a" << endl;
 
     xOffset = x-1;
     yOffset = y;
     if(x == 0)
     {
-      B(i,1) = B(i,1) + X_0_FUNCTION(yOffset);
+      B(i+1,1) = B(i+1,1) + X_0_FUNCTION(yOffset);
     }
     else
     {
-      A( i, xOffset+yOffset*(n-1) ) = -1.0/4;
+      A( i+1, xOffset+yOffset*(n-1)+1 ) = -1.0/4;
     }
-
-    cout << "b" << endl;
 
     xOffset = x;
     yOffset = y+1;
     if(yOffset == n)
     {
-      B(i,1) = B(i,1) + Y_1_FUNCTION(xOffset);
+      B(i+1,1) = B(i+1,1) + Y_1_FUNCTION(xOffset);
     }
     else
     {
-      A( i, xOffset+yOffset*(n-1) ) = -1.0/4;
+      A( i+1, xOffset+yOffset*(n-1)+1 ) = -1.0/4;
     }
-
-    cout << "c" << endl;
 
     xOffset = x;
     yOffset = y-1;
     if(y == 0)
     {
-      B(i,1) = B(i,1) + Y_0_FUNCTION(xOffset);
+      B(i+1,1) = B(i+1,1) + Y_0_FUNCTION(xOffset);
     }
     else
     {
-      A( i, xOffset+yOffset*(n-1) ) = -1.0/4;
+      A( i+1, xOffset+yOffset*(n-1)+1 ) = -1.0/4;
     }
 
-    cout << "d" << endl;
-
-    A(i,i) = 1;
-
-    cout << "e" << endl;
+    A(i+1,i+1) = 1;
   }
 
   return;

@@ -20,6 +20,8 @@ default : all
 
 all : driver
 
+remake : clean all
+
 driver : ${OBJECTS}
 	${CXX} ${CXXFLAGS} ${OBJECTS} -o $@
 

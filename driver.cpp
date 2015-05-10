@@ -30,10 +30,10 @@ double test(double a)
 
 int main(int argc, char** argv)
 {
-  symmetricMatrix<double> aMatrix(16,16);
+  symmetricMatrix<double> aMatrix;
   vector<double> bVector;
 
-  pdeMatrixGen<double, zero, sin, zero, sin>(aMatrix, bVector, 4);
+  pdeMatrixGen<double, zero, sin, zero, sin>(aMatrix, bVector, 3);
 
   cout << aMatrix;
 
