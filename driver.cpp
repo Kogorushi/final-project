@@ -13,11 +13,15 @@
 #include "choleskyDecomp.h"
 #include "gen_pde.h"
 #include <cmath>
+#include <ctime>
 
 using namespace std;
 
 int main(int argc, char** argv)
 {
+  time_t startTime;
+  time_t endTime;
+
   if(argc < 2)
   {
     cout << "Invalid argument" << endl;
@@ -42,29 +46,35 @@ int main(int argc, char** argv)
   cout << "~~~~~~~~~SOLVING FOR X~~~~~~~~~~~~~" << endl;
   cout << "...via Cholesky Decomposition..." << endl;
   lowerTMatrix<float> lT(A.getRows(), A.getCols());
+  startTime = time(NULL);
   lT = cholesky(A);
-  cout << "L:  " << endl << lT << endl;
-  cout << "...solving..." << endl;
+  cout << "L:  \n" << lT << "\n";
+  cout << "...solving...\n";
   x = choleskySolver(lT, b);
+  endTime = time(NULL);
   cout << "x:  " << endl << x << endl;
   cout << "Ax = " << endl << (A*x) << endl << "original is: " << endl << b << endl << endl;
+  cout << "Took time of: " << difftime(endTime, startTime) << endl;
 
   cout << "...via Gaussian Elimination..." << endl;
   gaussElim<float> t;
   matrix<float> mtrx(A);
   vector<float> tempB(b);
   cout << "...solving..." << endl;
+  startTime = time(NULL);
   x = t(mtrx, tempB);
+  endTime = time(NULL);
   cout << "A in row echelon form:" << endl;
   cout << mtrx << endl;
   cout << "Calculated value of x:" << endl;
   cout << x << endl;
   cout << "Ax = " << (A*x) << "original is: " << endl << b << endl;
-  
+  cout << "Took time of: " << difftime(endTime, startTime) << endl;
+
 /*  upperTMatrix<float> temp;
   upperTMatrix<float> mtrx(size, size);  //you can test these by commenting out the matrix class and the gaussian
 //  lowerTMatrix<float> mtrx(size, size);  //elimination at the bottom of the driver.
-  
+
   file >> mtrx;
   cout << mtrx;
   cout << "~~~~~~~~~~TESTING ACCESSORS~~~~~~~~~~~" << endl;
@@ -80,13 +90,13 @@ int main(int argc, char** argv)
   cout << mtrx;
   vector<float> b(size);
   file >> b;
-  
+
   vector<float> originalb(b);
 
   vector<float> x(b);
   cout << b(1, 1) << endl;
   x(1, 1) = 0;
-  cout << b(1, 1) << endl; 
+  cout << b(1, 1) << endl;
   matrix<float> temp2(mtrx);
   matrix<float> temp3(mtrx);
   matrix<float> a(1, 4);
@@ -94,7 +104,7 @@ int main(int argc, char** argv)
   cout << mtrx << endl;
   cout << temp2 << endl;
   for(int i = 1; i < 5; i++)
-  {  
+  {
     a(1,i) = 1;
   }
   cout << "didn't break yet..." << endl;
