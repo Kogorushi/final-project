@@ -3,7 +3,7 @@
 template <typename T, double (*X_0_FUNCTION)(double), double (*X_1_FUNCTION)(double), double (*Y_0_FUNCTION)(double), double (*Y_1_FUNCTION)(double)>
 void pdeMatrixGen(symmetricMatrix<T> &A, vector<T> &B, const uint32_t n)
 {
-  uint32_t i;       /* loop iterator */
+  int      i;       /* loop iterator */
   uint64_t x;       /* relataive x coordinate */
   uint64_t y;       /* relative y coordinate */
   uint64_t xOffset; /* relative x offset coordinate*/
@@ -34,7 +34,7 @@ void pdeMatrixGen(symmetricMatrix<T> &A, vector<T> &B, const uint32_t n)
     yOffset = y;
     if(x == 0) /* check for boundry case along x axis */
     {
-      B(i+1,1) = B(i+1,1) + X_0_FUNCTION(yOffset);
+      B(i+1,1) = B(i+1,1) + X_0_FUNCTION( (yOffset+1)/n );
     }
     else
     {
@@ -46,7 +46,7 @@ void pdeMatrixGen(symmetricMatrix<T> &A, vector<T> &B, const uint32_t n)
     yOffset = y;
     if(xOffset == n) /* check for boundry case along x = 1 */
     {
-      B(i+1,1) = B(i+1,1) + X_1_FUNCTION(yOffset);
+      B(i+1,1) = B(i+1,1) + X_1_FUNCTION( (yOffset+1)/n );
     }
     else
     {
@@ -58,7 +58,7 @@ void pdeMatrixGen(symmetricMatrix<T> &A, vector<T> &B, const uint32_t n)
     yOffset = y-1;
     if(y == 0) /* check for boundry case along y axis */
     {
-      B(i+1,1) = B(i+1,1) + Y_0_FUNCTION(xOffset);
+      B(i+1,1) = B(i+1,1) + Y_0_FUNCTION( (xOffset+1)/n );
     }
     else
     {
@@ -70,7 +70,7 @@ void pdeMatrixGen(symmetricMatrix<T> &A, vector<T> &B, const uint32_t n)
     yOffset = y+1;
     if(yOffset == n) /* check for boundry case along y = 1 */
     {
-      B(i+1,1) = B(i+1,1) + Y_1_FUNCTION(xOffset);
+      B(i+1,1) = B(i+1,1) + Y_1_FUNCTION( (xOffset+1)/n);
     }
     else
     {
