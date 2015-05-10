@@ -16,6 +16,8 @@
 #include <ctime>
 #include <chrono>
 
+#define MAX_RANGE 3.1415926535897
+
 using std::cout;
 
 int main(int argc, char** argv)
@@ -24,6 +26,10 @@ int main(int argc, char** argv)
   std::chrono::high_resolution_clock::time_point timeEnd;
   std::chrono::duration<double> time_span;
   int n;
+  fstream fileOutput1;
+  fstream fileOutput2;
+  uint32_t i;
+  uint32_t j;
 
   if(argc < 2)
   {
@@ -33,6 +39,13 @@ int main(int argc, char** argv)
   }
 
   n = atoi(argv[1]);
+
+  fileOutput1.open("gnuDataCho.dat");
+  fileOutput2.open("gnuDataGay.dat");
+
+  fileOutput1 << "#X Y Z\n";
+  fileOutput2 << "#X Y Z\n";
+
 
   cout << "~~~~~~~~~~~~~BEGINNING TESTING~~~~~~~~~~~~~\n";
   symmetricMatrix<float> A;
@@ -53,6 +66,15 @@ int main(int argc, char** argv)
   time_span = ::chrono::duration_cast< ::chrono::duration<double> >(timeEnd - timeStart);
 
   cout << "x:\n" << x;
+
+  for(i = 0; i < A.getCols(); ++i)
+  {
+    for(j = 0; j < A.getRows(); ++j)
+    {
+      fileOutput1 << (j+1)/MAX_RANGE << " " << (i+1)/MAX_RANGE << " " << A(j+1, i+1) << "\n";
+    }
+  }
+
   cout << "Took time of: " << time_span.count() << " seconds." << endl;
 
   cout << "\n...via Gaussian Elimination..." << endl;
@@ -68,6 +90,15 @@ int main(int argc, char** argv)
   time_span = ::chrono::duration_cast< ::chrono::duration<double> >(timeEnd - timeStart);
 
   cout << "x:\n" << x;
+
+  for(i = 0; i < A.getCols(); ++i)
+  {
+    for(j = 0; j < A.getRows(); ++j)
+    {
+      fileOutput2 << (j+1)/MAX_RANGE << " " << (i+1)/MAX_RANGE << " " << A(j+1, i+1) << "\n";
+    }
+  }
+
   cout << "Took time of: " << time_span.count() << " seconds." << endl;
 
   return 0;
