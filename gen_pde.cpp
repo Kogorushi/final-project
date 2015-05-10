@@ -29,64 +29,54 @@ void pdeMatrixGen(symmetricMatrix<T> &A, vector<T> &B, const uint32_t n)
     represent corrdinates as their column / row offset in an effortto reduce floating point division errors
     */
 
-    y = i/(n+1);
-    x = i%(n+1);
+    y = i/n;
+    x = i%n;
 
     xOffset = x-1;
     yOffset = y;
     if(x == 0)
     {
-      cout << "B: adding to (" << i+1 << ", " << 1 << ")" << endl;
       B(i+1,1) = B(i+1,1) + X_0_FUNCTION(yOffset);
     }
     else
     {
-      cout << "A: adding to (" << i+1 << ", " << xOffset+yOffset*(n-1)+1 << ")" << endl;
-      A( i+1, xOffset+yOffset*(n-1)+1 ) = -1.0/4;
+      A( i+1, xOffset+yOffset*(n)+1 ) = -1.0/4;
     }
 
     xOffset = x+1;
     yOffset = y;
     if(xOffset == n)
     {
-      cout << "B: adding to (" << i+1 << ", " << 1 << ")" << endl;
       B(i+1,1) = B(i+1,1) + X_1_FUNCTION(yOffset);
     }
     else
     {
-      cout << "A: adding to (" << i+1 << ", " << xOffset+yOffset*(n-1)+1 << ")" << endl;
-      A( i+1, xOffset+yOffset*(n-1)+1 ) = -1.0/4;
+      A( i+1, xOffset+yOffset*(n)+1 ) = -1.0/4;
     }
 
     xOffset = x;
     yOffset = y-1;
     if(y == 0)
     {
-      cout << "B: adding to (" << i+1 << ", " << 1 << ")" << endl;
       B(i+1,1) = B(i+1,1) + Y_0_FUNCTION(xOffset);
     }
     else
     {
-      cout << "A: adding to (" << i+1 << ", " << xOffset+yOffset*(n-1)+1 << ")" << endl;
-      A( i+1, xOffset+yOffset*(n-1)+1 ) = -1.0/4;
+      A( i+1, xOffset+yOffset*(n)+1 ) = -1.0/4;
     }
 
     xOffset = x;
     yOffset = y+1;
     if(yOffset == n)
     {
-      cout << "B: adding to (" << i+1 << ", " << 1 << ")" << endl;
       B(i+1,1) = B(i+1,1) + Y_1_FUNCTION(xOffset);
     }
     else
     {
-      cout << "A: adding to (" << i+1 << ", " << xOffset+yOffset*(n-1)+1 << ")" << endl;
-      A( i+1, xOffset+yOffset*(n-1)+1 ) = -1.0/4;
+      A( i+1, xOffset+yOffset*(n)+1 ) = -1.0/4;
     }
 
     A(i+1,i+1) = 1;
-
-    cout << A << endl << endl;
   }
 
   return;
