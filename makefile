@@ -5,7 +5,8 @@
 # Purpose:      makefile1 for example source code.
 #####################################################
 
-CXX = /usr/bin/g++
+#CXX = /usr/bin/g++
+CXX = clang++
 CXXFLAGS = -std=c++0x -g -Wall -W -pedantic-errors
 
 OBJECTS = driver.o
@@ -18,6 +19,8 @@ OBJECTS = driver.o
 default : all
 
 all : driver
+
+remake : clean all
 
 driver : ${OBJECTS}
 	${CXX} ${CXXFLAGS} ${OBJECTS} -o $@
@@ -32,4 +35,8 @@ clean :
 driver.o : driver.cpp vector.h vector.hpp \
            gaussElim.h gaussElim.hpp matrix.h upperTMatrix.h upperTMatrix.hpp \
            matrix.hpp matrixInterface.h matrixFuncs.h matrixFuncs.hpp \
+<<<<<<< HEAD
            lowerTMatrix.h lowerTMatrix.hpp choleskyDecomp.hpp
+=======
+           lowerTMatrix.h lowerTMatrix.hpp
+>>>>>>> origin/master
