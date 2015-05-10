@@ -28,7 +28,7 @@ double test(double a)
   return 100;
 }
 
-int main(int argc, char** argv)
+int main()
 {
   symmetricMatrix<double> aMatrix;
   vector<double> bVector;
