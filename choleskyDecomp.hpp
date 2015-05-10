@@ -43,12 +43,12 @@ vector<T> choleskySolver(const lowerTMatrix<T>& A, const vector<T>& b)
 {
   vector<T> retVal(b.getRows()), temp(b.getRows());
   T scalar = 0;
-  for(int i = A.getCols(); i > 0; i--)
+  for(int i = 1; i <= A.getRows(); i++)
   {
     scalar = 0;
-    for(int j = i; j < A.getCols(); j++)
+    for(int j = 1; j < i; j++)
     {
-      scalar = scalar + temp[j] * A(i,j+1);
+      scalar = scalar + temp[j - 1] * A(i,j);
     }
     if(A(i, i) != 0)
     {
@@ -58,9 +58,9 @@ vector<T> choleskySolver(const lowerTMatrix<T>& A, const vector<T>& b)
   for(int i = A.getCols(); i > 0; i--)
   {
     scalar = 0;
-    for(int j = i; j < A.getCols(); j++)
+    for(int j = i + 1; j <= A.getCols(); j++)
     {
-      scalar = scalar + retVal[j] * A(j+1,i);
+      scalar = scalar + retVal[j - 1] * A(j,i);
     }
     if(A(i, i) != 0)
     {
