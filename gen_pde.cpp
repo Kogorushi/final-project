@@ -1,6 +1,6 @@
 #include <cstdint>
 
-template <typename T, double (*X_0_FUNCTION)(double), double (*X_1_FUNCTION)(double), double (*Y_0_FUNCTION)(double), double (*Y_1_FUNCTION)(double)>
+template <typename T, T (*X_0_FUNCTION)(T), T (*X_1_FUNCTION)(T), T (*Y_0_FUNCTION)(T), T (*Y_1_FUNCTION)(T)>
 void pdeMatrixGen(symmetricMatrix<T> &A, vector<T> &B, const uint32_t n)
 {
   int      i;       /* loop iterator */
@@ -78,6 +78,7 @@ void pdeMatrixGen(symmetricMatrix<T> &A, vector<T> &B, const uint32_t n)
     }
 
     A(i+1,i+1) = 1;
+    B(i+1,1) = B(i+1,1) / 4.0;
   }
 
   return;
