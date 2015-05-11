@@ -32,7 +32,8 @@ int main(int argc, char** argv)
     cout << "Driver requires an integer for the mesh size." << endl;
     return 1;
   }
-
+  ofstream output;
+  output.open("output.txt");
   n = atoi(argv[1]);
 
   cout << "~~~~~~~~~~~~~BEGINNING TESTING~~~~~~~~~~~~~\n";
@@ -55,6 +56,7 @@ int main(int argc, char** argv)
   time_span = ::chrono::duration_cast< ::chrono::duration<double> >(timeEnd - timeStart);
 
   cout << "x:\n" << x;
+  output << time_span.count() << endl;
   cout << "Took time of: " << time_span.count() << " seconds." << endl;
 
   cout << "\n...via Gaussian Elimination..." << endl;
@@ -71,8 +73,8 @@ int main(int argc, char** argv)
 
   cout << "x:\n" << x;
   cout << "Took time of: " << time_span.count() << " seconds." << endl;
-  ofstream output;
-  output.open("output.txt");
+
+  output << time_span.count() << endl;
   for(int i = 0; i < n*n; i++)
   {
     output << x[i];
