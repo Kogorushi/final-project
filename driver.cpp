@@ -100,6 +100,19 @@ int main(int argc, char** argv)
   }
 
   cout << "Took time of: " << time_span.count() << " seconds." << endl;
-
+  ofstream output;
+  output.open("output.txt");
+  for(int i = 0; i < n*n; i++)
+  {
+    output << x[i];
+    if((i+1)%n == 0)
+    {
+      output << "\n";
+    }
+    else
+    {
+      output << "\t";
+    }
+  }
   return 0;
 }
