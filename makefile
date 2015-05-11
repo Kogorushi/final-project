@@ -5,8 +5,7 @@
 # Purpose:      makefile1 for example source code.
 #####################################################
 
-#CXX = /usr/bin/g++
-CXX = clang++
+CXX = /usr/bin/g++
 CXXFLAGS = -std=c++0x -g -Wall -W -pedantic-errors
 
 OBJECTS = driver.o
@@ -19,8 +18,6 @@ OBJECTS = driver.o
 default : all
 
 all : driver
-
-remake : clean all
 
 driver : ${OBJECTS}
 	${CXX} ${CXXFLAGS} ${OBJECTS} -o $@

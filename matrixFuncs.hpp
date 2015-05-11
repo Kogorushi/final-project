@@ -22,7 +22,7 @@ matrix<T> operator+(const matrixInt<T>& lhs, const matrixInt<T>& rhs)
       }
       else
       {
-        i = i + i/c;
+        i = i + i/c; 
       }
     }
   }
@@ -58,7 +58,7 @@ matrix<T> operator+(const matrixInt<T>& lhs, const matrixInt<T>& rhs)
       }
       else
       {
-        i += (c-i/c) - 1;
+        i += (c-i/c) - 1; 
       }
     }
   }
@@ -86,7 +86,7 @@ matrix<T> operator-(const matrixInt<T>& lhs, const matrixInt<T>& rhs)
       }
       else
       {
-        i = i + i/c;
+        i = i + i/c; 
       }
     }
   }
@@ -122,7 +122,7 @@ matrix<T> operator-(const matrixInt<T>& lhs, const matrixInt<T>& rhs)
       }
       else
       {
-        i += (c-i/c) - 1;
+        i += (c-i/c) - 1; 
       }
     }
   }
@@ -193,7 +193,7 @@ matrix<T> operator*(const matrixInt<T>& lhs, const T rhs)
       }
       else
       {
-        i = i + i/c;
+        i = i + i/c; 
       }
     }
   }
@@ -229,7 +229,7 @@ matrix<T> operator*(const matrixInt<T>& lhs, const T rhs)
       }
       else
       {
-        i += (c-i/c) - 1;
+        i += (c-i/c) - 1; 
       }
     }
   }
@@ -244,9 +244,9 @@ ostream& operator<<(ostream& stream, const matrixInt<T>& c)
     stream << "| ";
     for(int j = 1; j <= c.getCols(); j++)
     {
-      stream << c(i, j) << "\t";
+      stream << c(i, j) << " ";
     }
-    stream << "|" << endl;
+    stream << " |" << endl;
   }
   return stream;
 }

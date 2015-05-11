@@ -15,8 +15,7 @@
 #include <cmath>
 #include <ctime>
 #include <chrono>
-
-#define MAX_RANGE 3.1415926535897
+#define _USE_MATH_DEFINES
 
 using std::cout;
 
@@ -26,10 +25,6 @@ int main(int argc, char** argv)
   std::chrono::high_resolution_clock::time_point timeEnd;
   std::chrono::duration<double> time_span;
   int n;
-  fstream fileOutput1;
-  fstream fileOutput2;
-  uint32_t i;
-  uint32_t j;
 
   if(argc < 2)
   {
@@ -40,19 +35,13 @@ int main(int argc, char** argv)
 
   n = atoi(argv[1]);
 
-  fileOutput1.open("gnuDataCho.dat");
-  fileOutput2.open("gnuDataGay.dat");
-
-  fileOutput1 << "#X Y Z\n";
-  fileOutput2 << "#X Y Z\n";
-
-
   cout << "~~~~~~~~~~~~~BEGINNING TESTING~~~~~~~~~~~~~\n";
   symmetricMatrix<float> A;
   vector<float> b, x;
   cout << "GENERATING MATRIX..." << endl;
-  pdeMatrixGen<float, sin, zero, cos, zero>(A, b, n);
-
+  pdeMatrixGen<float, sin, zero, sin, zero>(A, b, n);
+  cout << A << endl;
+  cout << b << endl;
   cout << "~~~~~~~~~~~~~SOLVING FOR X~~~~~~~~~~~~~\n";
   cout << "...via Cholesky Decomposition..." << endl;
   lowerTMatrix<float> lT(A.getRows(), A.getCols());
@@ -66,15 +55,6 @@ int main(int argc, char** argv)
   time_span = ::chrono::duration_cast< ::chrono::duration<double> >(timeEnd - timeStart);
 
   cout << "x:\n" << x;
-
-  for(i = 0; i < A.getCols(); ++i)
-  {
-    for(j = 0; j < A.getRows(); ++j)
-    {
-      fileOutput1 << (j+1)/MAX_RANGE << " " << (i+1)/MAX_RANGE << " " << A(j+1, i+1) << "\n";
-    }
-  }
-
   cout << "Took time of: " << time_span.count() << " seconds." << endl;
 
   cout << "\n...via Gaussian Elimination..." << endl;
@@ -90,15 +70,6 @@ int main(int argc, char** argv)
   time_span = ::chrono::duration_cast< ::chrono::duration<double> >(timeEnd - timeStart);
 
   cout << "x:\n" << x;
-
-  for(i = 0; i < A.getCols(); ++i)
-  {
-    for(j = 0; j < A.getRows(); ++j)
-    {
-      fileOutput2 << (j+1)/MAX_RANGE << " " << (i+1)/MAX_RANGE << " " << A(j+1, i+1) << "\n";
-    }
-  }
-
   cout << "Took time of: " << time_span.count() << " seconds." << endl;
   ofstream output;
   output.open("output.txt");
@@ -114,5 +85,28 @@ int main(int argc, char** argv)
       output << "\t";
     }
   }
+  cout << "~~~~~~~~~~Populating True Value Vector~~~~~~~~~" << endl;
+  vector<double> tVal(n*n);
+  double xVal, yVal;
+  for(int i = 1; i <= n; i++)
+  {
+    for(int j = 1; j <= n; j++)
+    {
+      xVal = M_PI/(n+1)*j;
+      yVal = M_PI/(n+1)*i;
+      tVal[(i-1)*n+(j-1)] = (sin(xVal)*sinh(M_PI - yVal)+sin(yVal)*sinh(M_PI-xVal))/sinh(M_PI);
+    }
+  }
+  cout << "~~~~~~~~~~Calculating Absolute Error~~~~~~~~~~~~" << endl;
+  double err(0), maxT(0);  //calculating error using infinity norm
+  for(int i = 1; i <= n*n; i++)
+  {
+    err = max(err, abs(tVal(i, 1) - x(i, 1)));
+    maxT = max(maxT, abs(tVal(i, 1)));
+  }
+  cout << tVal<< endl;
+  cout << maxT << "  " << err << "   " << endl;
+  cout << "Absolute Error:  " << err/maxT << endl;
+  output << "\n\n" << err/maxT << "\n";
   return 0;
 }
